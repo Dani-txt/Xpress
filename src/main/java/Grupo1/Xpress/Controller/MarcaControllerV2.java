@@ -86,7 +86,7 @@ public class MarcaControllerV2 {
         if (marca == null) {
             return ResponseEntity.notFound().build();
     }
-        marcaService.delete(id);
+        marcaService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 

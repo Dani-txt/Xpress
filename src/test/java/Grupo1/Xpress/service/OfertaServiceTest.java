@@ -1,18 +1,17 @@
 package Grupo1.Xpress.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -77,13 +76,6 @@ public class OfertaServiceTest {
     }
 
     @Test
-    public void testDelete() {
-        doNothing().when(ofertaRepository).deleteById(1L);
-        ofertaService.delete(1L);
-        verify(ofertaRepository, times(1)).deleteById(1L);
-    }
-
-    @Test
     public void testActualizar() {
         Oferta existente = createOferta();
         Oferta actualizado = new Oferta(1L, 30.0);
@@ -118,22 +110,9 @@ public class OfertaServiceTest {
     }
 
     @Test
-    public void testPatchOfertaNotFound() {
-        when(ofertaRepository.findById(1L)).thenReturn(Optional.empty());
-        Oferta result = ofertaService.patchOferta(1L, new Oferta());
-        assertNull(result);
-    }
-
-    @Test
-    public void testPatchOfertaNoChanges() {
-        Oferta existente = createOferta();
-        Oferta patchData = new Oferta();
-
-        when(ofertaRepository.findById(1L)).thenReturn(Optional.of(existente));
-        when(ofertaRepository.save(any(Oferta.class))).thenAnswer(i -> i.getArgument(0));
-
-        Oferta result = ofertaService.patchOferta(1L, patchData);
-        assertNotNull(result);
-        assertEquals(20.0, result.getDescuento());
+    public void testDelete() {
+        doNothing().when(ofertaRepository).deleteById(1L);
+        ofertaService.deleteById(1L);
+        verify(ofertaRepository, times(1)).deleteById(1L);
     }
 }

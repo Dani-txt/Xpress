@@ -146,7 +146,6 @@ public class ProductoService {
         return null;
     }
 
-
 //Agregar producto
     public Producto save(Producto producto){
         return productoRepository.save(producto);
@@ -197,8 +196,55 @@ public class ProductoService {
             }
     }
 
-    //Eliminar producto
-    public void delete(Long id){
-        productoRepository.deleteById(id);
+//Eliminar producto con cascada (supongo)
+    public void deleteById(Long id) {
+        //1ero se busca al producto por su id
+        Producto producto = productoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        if (producto.getOferta() != null) {
+        producto.setOferta(null); // Desasocia oferta (por seguridad)
     }
+
+        //Al ser encontrado se elimina el producto
+        productoRepository.delete(producto);
+        //una marca es compartida por varios productos, si es elimina podría generar problemas
+    }
+
+
+/*ESTE ES EL METODO CASCADA PERO NO SERVIRÁ, YA QUE LOS ATRIBUTOS (FK) SON UTILIZADOS POR MÁS DE UN PRODUCTO. 
+UNA MARCA EXISTE POR SI SOLA NO DEPENDE DE UN PRODUCTO
+    public void deleteById(Long id) {
+        // 1. Buscar el producto
+        Producto producto = productoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        //Eliminar el producto
+            productoRepository.delete(producto);
+
+        //eliminar la categoría
+        if (producto.getCategoriaProducto() !=null){
+            Long categoriaProductoId = producto.getCategoriaProducto().getId();
+            categoriaProductoRepository.deleteById(categoriaProductoId);
+        }
+
+        //Eliminar la api service relacionada
+        if (producto.getApiService() != null) {
+            Long apiServiceId = producto.getApiService().getId();
+            apiServiceRepository.deleteById(apiServiceId);
+        }
+
+        //Eliminar la marca relacionada
+        if(producto.getMarca() !=null){
+            Long marcaId = producto.getMarca().getId();
+            marcaRepository.deleteById(marcaId);
+        }
+
+        //Eliminar manualmente la oferta, si existe
+        if (producto.getOferta() != null) {
+            Long ofertaId = producto.getOferta().getId();
+            ofertaRepository.deleteById(ofertaId);
+        }
+    }
+*/
+
 }

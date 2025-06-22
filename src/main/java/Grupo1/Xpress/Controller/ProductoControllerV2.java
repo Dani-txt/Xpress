@@ -212,7 +212,7 @@ public class ProductoControllerV2 {
         if (producto == null) {
             return ResponseEntity.notFound().build();
     }
-        productoService.delete(id);
+        productoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

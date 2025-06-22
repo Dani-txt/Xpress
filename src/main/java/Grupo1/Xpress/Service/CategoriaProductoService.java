@@ -35,11 +35,6 @@ public class CategoriaProductoService {
         return categoriaProductoRepository.save(categoriaProducto);
     }
 
-    //eliminar categoria
-    public void delete(Long id){
-        categoriaProductoRepository.deleteById(id);
-    }
-
     public CategoriaProducto actualizar(Long id, CategoriaProducto categoriaProducto){
         CategoriaProducto cat = categoriaProductoRepository.findById(id).orElse(null);
         if (cat != null) {
@@ -61,6 +56,15 @@ public class CategoriaProductoService {
             }else{
                 return null;
             }
+    }
+
+    //eliminar categoria
+    public void deleteById(Long id) {
+        //1ero se busca a la api por su id
+        CategoriaProducto categoriaProducto = categoriaProductoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        //Al ser encontrada se elimina
+        categoriaProductoRepository.delete(categoriaProducto);
     }
 
 }

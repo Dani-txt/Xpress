@@ -219,7 +219,7 @@ public class ProductoServiceTest {
     @Test
     public void testDeleteById() {
         doNothing().when(productoRepository).deleteById(1L);
-        productoService.delete(1L);
+        productoService.deleteById(1L);
         verify(productoRepository, times(1)).deleteById(1L);
     }
 

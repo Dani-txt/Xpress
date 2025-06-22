@@ -37,11 +37,6 @@ public class OfertaService {
         return ofertaRepository.save(oferta);
     }
 
-    // Eliminar oferta
-    public void delete(Long id) {
-        ofertaRepository.deleteById(id);
-    }
-
     // Actualizar una oferta
     public Oferta actualizar(Long id, Oferta oferta) {
         Oferta of = ofertaRepository.findById(id).orElse(null);
@@ -65,6 +60,15 @@ public class OfertaService {
         } else {
             return null;
         }
+    }
+
+    //eliminar marca
+    public void deleteById(Long id) {
+        //1ero se busca a la api por su id
+        Oferta oferta = ofertaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        //Al ser encontrada se elimina
+        ofertaRepository.delete(oferta);
     }
 }
 

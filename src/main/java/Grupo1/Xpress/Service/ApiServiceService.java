@@ -61,4 +61,12 @@ public class ApiServiceService {
             }
     }
 
+    public void deleteById(Long id) {
+        //1ero se busca a la api por su id
+        ApiService apiService = apiServiceRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        //Al ser encontrada se elimina
+        apiServiceRepository.delete(apiService);
+    }
+
 }

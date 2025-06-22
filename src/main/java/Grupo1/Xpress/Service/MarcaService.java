@@ -35,10 +35,6 @@ public class MarcaService {
         return marcaRepository.save(marca);
     }
 
-    //eliminar categoria
-    public void delete(Long id){
-        marcaRepository.deleteById(id);
-    }
 
     public Marca actualizar(Long id, Marca marca){
         Marca mar = marcaRepository.findById(id).orElse(null);
@@ -61,5 +57,14 @@ public class MarcaService {
             }else{
                 return null;
             }
+    }
+
+    //eliminar marca
+    public void deleteById(Long id) {
+        //1ero se busca a la api por su id
+        Marca marca = marcaRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        //Al ser encontrada se elimina
+        marcaRepository.delete(marca);
     }
 }

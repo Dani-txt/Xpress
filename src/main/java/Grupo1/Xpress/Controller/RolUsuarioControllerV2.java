@@ -86,7 +86,7 @@ public class RolUsuarioControllerV2 {
         if (rolUsuario == null) {
             return ResponseEntity.notFound().build();
     }
-        rolUsuarioService.delete(id);
+        rolUsuarioService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

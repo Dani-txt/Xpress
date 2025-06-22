@@ -86,7 +86,7 @@ public class CategoriaProductoControllerV2 {
         if (categoriaProducto == null) {
             return ResponseEntity.notFound().build();
     }
-        categoriaProductoService.delete(id);
+        categoriaProductoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

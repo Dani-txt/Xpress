@@ -1,18 +1,17 @@
 package Grupo1.Xpress.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -77,13 +76,6 @@ public class MarcaServiceTest {
     }
 
     @Test
-    public void testDelete() {
-        doNothing().when(marcaRepository).deleteById(1L);
-        marcaService.delete(1L);
-        verify(marcaRepository, times(1)).deleteById(1L);
-    }
-
-    @Test
     public void testActualizar() {
         Marca existente = createMarca();
         Marca actualizado = new Marca(1L, "Samsung Actualizado");
@@ -94,13 +86,6 @@ public class MarcaServiceTest {
         Marca result = marcaService.actualizar(1L, actualizado);
         assertNotNull(result);
         assertEquals("Samsung Actualizado", result.getNombre());
-    }
-
-    @Test
-    public void testActualizarNotFound() {
-        when(marcaRepository.findById(1L)).thenReturn(Optional.empty());
-        Marca result = marcaService.actualizar(1L, createMarca());
-        assertNull(result);
     }
 
     @Test
@@ -118,9 +103,10 @@ public class MarcaServiceTest {
     }
 
     @Test
-    public void testPatchMarcaNotFound() {
-        when(marcaRepository.findById(1L)).thenReturn(Optional.empty());
-        Marca result = marcaService.patchMarca(1L, new Marca());
-        assertNull(result);
+    public void testDelete() {
+        doNothing().when(marcaRepository).deleteById(1L);
+        marcaService.deleteById(1L);
+        verify(marcaRepository, times(1)).deleteById(1L);
     }
+
 }

@@ -12,7 +12,7 @@ import Grupo1.Xpress.Modelo.Producto;
 @Component
 public class ProductoModelAssembler implements RepresentationModelAssembler<Producto, EntityModel<Producto>> {
 
-  @SuppressWarnings("null")
+    @SuppressWarnings("null")
 
     @Override
     public EntityModel<Producto> toModel(Producto producto) {

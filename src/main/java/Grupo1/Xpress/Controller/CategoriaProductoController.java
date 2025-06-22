@@ -78,7 +78,7 @@ public class CategoriaProductoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id){
         try{
-            categoriaProductoService.delete(id);
+            categoriaProductoService.deleteById(id);
             return ResponseEntity.noContent().build();
         }catch (Exception e){
             return ResponseEntity.notFound().build();

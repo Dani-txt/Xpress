@@ -89,7 +89,7 @@ public class DataLoader implements CommandLineRunner {
             "Tablet",
             "Celulares",
             "Consolas",
-            "Juegos",
+            "Videojuegos",
             "Accesorios",
             "Electrodomésticos",
             "Electrónica",

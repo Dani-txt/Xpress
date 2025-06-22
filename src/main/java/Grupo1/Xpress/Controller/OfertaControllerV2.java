@@ -86,7 +86,7 @@ public class OfertaControllerV2 {
         if (oferta == null) {
             return ResponseEntity.notFound().build();
     }
-        ofertaService.delete(id);
+        ofertaService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 

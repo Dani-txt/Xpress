@@ -78,7 +78,7 @@ public class RolUsuarioServiceTest {
     @Test
     public void testDeleteById() {
         doNothing().when(RolUsuarioRepository).deleteById(1L);
-        RolUsuarioService.delete(1L);
+        RolUsuarioService.deleteById(1L);
         verify(RolUsuarioRepository, times(1)).deleteById(1L);
     }
 

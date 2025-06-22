@@ -77,7 +77,7 @@ public class CategoriaProductoServiceTest {
     @Test
     public void testDeleteById() {
         doNothing().when(categoriaProductoRepository).deleteById(1L);
-        categoriaProductoService.delete(1L);
+        categoriaProductoService.deleteById(1L);
         verify(categoriaProductoRepository, times(1)).deleteById(1L);
     }
 }

@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import Grupo1.Xpress.Modelo.RolUsuario;
 import Grupo1.Xpress.Modelo.Usuario;
+import Grupo1.Xpress.Repository.RolUsuarioRepository;
 import Grupo1.Xpress.Repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 
@@ -15,6 +17,9 @@ import jakarta.transaction.Transactional;
 public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private RolUsuarioRepository rolUsuarioRepository;
 
     public List<Usuario>findAll(){
         return usuarioRepository.findAll();
@@ -72,7 +77,19 @@ public class UsuarioService {
         }
     }
 
-        public void delete(Long id){
-        usuarioRepository.deleteById(id);
+    public void deleteById(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        RolUsuario rol = usuario.getRolUsuario();
+
+        // Verificar si otros usuarios usan ese rol
+        Long cantidadUsuariosConEseRol = usuarioRepository.countByRolUsuario(rol);
+        if (cantidadUsuariosConEseRol == 0) {
+            rolUsuarioRepository.delete(rol); // eliminar el rol si está "huérfano"
+        }
+
+        // Eliminar el usuario
+        usuarioRepository.delete(usuario);
     }
 }

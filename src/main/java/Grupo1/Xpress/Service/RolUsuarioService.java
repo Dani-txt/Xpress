@@ -29,10 +29,6 @@ public class RolUsuarioService {
         return rolUsuarioRepository.save(rolUsuario);
     }
 
-    public void delete(Long id){
-        rolUsuarioRepository.deleteById(id);
-    }
-
     public RolUsuario actualizar(Long id, RolUsuario rolUsuario){
         RolUsuario rolUs = rolUsuarioRepository.findById(id).orElse(null);
         if (rolUsuario != null) {
@@ -54,6 +50,15 @@ public class RolUsuarioService {
             }else{
                 return null;
             }
+    }
+
+    //eliminar rol
+    public void deleteById(Long id) {
+        //1ero se busca a la api por su id
+        RolUsuario rolUsuario = rolUsuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        //Al ser encontrada se elimina
+        rolUsuarioRepository.delete(rolUsuario);
     }
 
 }
