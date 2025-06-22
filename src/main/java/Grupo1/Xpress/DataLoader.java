@@ -178,7 +178,6 @@ public class DataLoader implements CommandLineRunner {
         List<Marca> marcas = marcaRepository.findAll();
         List<Oferta> ofertas = ofertaRepository.findAll();
         List<ApiService> apis = apiServiceRepository.findAll();
-
         // Crear productos
         String[] nombreProductos={
             "Audifonos",

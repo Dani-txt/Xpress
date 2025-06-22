@@ -47,6 +47,6 @@ public class Producto {
     private Marca marca;
 
     @ManyToOne
-    @JoinColumn(name="Oferta_id", nullable=false)
+    @JoinColumn(name="Oferta_id", nullable=true)
     private Oferta oferta;
 }

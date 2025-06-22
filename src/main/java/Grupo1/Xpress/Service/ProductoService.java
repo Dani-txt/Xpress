@@ -35,6 +35,87 @@ public class ProductoService {
         return productoRepository.findByNombre(nombre);
     }
 
+    //Obtener productos menores al valor otorgado
+    public List<Producto> findByProductoMenor(Integer precio) {
+        List<Producto> productoBarato = productoRepository.findByProductoMenor(precio);
+        if (productoBarato !=null) {
+            return productoRepository.findByProductoMenor(precio);
+        }
+        return null;
+    }
+
+//Obtener un producto de menor precio de alguna marca en especifico
+    public List<Producto> findByProductoMenorMarca(Integer precio, String nombre){
+        List<Producto> productoMayorMarca = productoRepository.findByProductoMenorMarca(precio, nombre);
+        if (productoMayorMarca !=null) {
+            return productoRepository.findByProductoMenorMarca(precio, nombre);
+        }
+        return null;
+    }
+
+//Obtener productos mayores a precio otorgado
+    public List<Producto> findByProductoMayor(Integer precio){
+        List<Producto> productoMayor = productoRepository.findByProductoMayor(precio);
+        if (productoMayor !=null) {
+            return productoRepository.findByProductoMayor(precio);
+        }
+        return null;
+    }
+
+//Obtener un producto de mayor precio de alguna marca en especifico
+    public List<Producto> findByProductoMayorMarca(Integer precio, String nombre){
+        List<Producto> productoMayorMarca = productoRepository.findByProductoMayorMarca(precio, nombre);
+        if (productoMayorMarca !=null) {
+            return productoRepository.findByProductoMayorMarca(precio, nombre);
+        }
+        return null;
+    }
+
+    //Obtener productos por marca
+    public List<Producto> findByProductoMarca(String nombre){
+        List<Producto> productoMarca = productoRepository.findByProductoMarca(nombre);
+        if (productoMarca !=null) {
+            return productoRepository.findByProductoMarca(nombre);
+        }
+        return null;
+    }
+
+    //Obtener producto por marca, descuento y disponibilidad
+    public List<Producto> findByProductoMarcaDescuento(String nombre, Double descuento, Boolean disponibilidad){
+        List<Producto> productoMarcaDescuento = productoRepository.findByDescuentoMarca(nombre, descuento, disponibilidad);
+        if (productoMarcaDescuento !=null) {
+            return productoRepository.findByDescuentoMarca(nombre, descuento, disponibilidad);
+        }
+        return null;
+    }
+
+    //Obtener producto por marca, desceunto, disponibilidad, tienda
+    public List<Producto> findByProductoMarcaDescuentoTienda(String nombre, Double descuento, Boolean disponibilidad, String tienda){
+        List<Producto> productoMarcaDescuentoTienda = productoRepository.findByDescuentoMarcaTienda(nombre, descuento, disponibilidad, tienda);
+        if (productoMarcaDescuentoTienda !=null) {
+            return productoRepository.findByDescuentoMarcaTienda(nombre, descuento, disponibilidad, tienda);
+        }
+        return null;
+    }
+
+//Obtener producto disponible de un precio mayor al establecido, que cumpla con la marca y el descuento buscado
+    public List<Producto> findByProductoPrecioMayorDescuentoMarca(Integer precio, String nombre, Double descuento, Boolean disponibilidad){
+        List<Producto> productoMayor = productoRepository.findByPrecioDescuentoMarcaMayor(precio, nombre, descuento, disponibilidad);
+        if (productoMayor !=null) {
+            return productoRepository.findByPrecioDescuentoMarcaMayor(precio, nombre, descuento, disponibilidad);
+        }
+        return null;
+    }
+
+//Obtener producto disponible de un precio menor al establecido, que cumpla con la marca, el descuento buscado
+    public List<Producto> findByProductoPrecioMenorDescuentoMarca(Integer precio, String nombre, Double descuento, Boolean disponibilidad){
+        List<Producto> productoMayor = productoRepository.findByPrecioDescuentoMarcaMenor(precio, nombre, descuento, disponibilidad);
+        if (productoMayor !=null) {
+            return productoRepository.findByPrecioDescuentoMarcaMenor(precio, nombre, descuento, disponibilidad);
+        }
+        return null;
+    }
+
 //diponibilidad
     public List<Producto> findByDisponibilidad(Boolean disponibilidad){
         return productoRepository.findByDisponibilidad(disponibilidad);
@@ -49,32 +130,22 @@ public class ProductoService {
         return null;
     }
 
-//Obtener productos por marca
-    public List<Producto> obtenerProductoPorMarca(String nombreMarca){
-        List<Producto> productoMarca = productoRepository.findProductoPorMarca(nombreMarca);
-        if (productoMarca !=null) {
-            return productoRepository.findProductoPorMarca(nombreMarca);
+    public List<Producto> findByDescuentoMarca(String nombreMarca, Double descuento, Boolean disponibilidad){
+        List<Producto> productoDisponible = productoRepository.findByDescuentoMarca(nombreMarca, descuento, disponibilidad);
+        if (productoDisponible !=null) {
+            return productoRepository.findByDescuentoMarca(nombreMarca, descuento, disponibilidad);
+        }
+    return null;
+    }
+
+    public List<Producto> findByDescuentoMarcaTienda(String marca, Double descuento, Boolean disponibilidad, String tienda){
+        List<Producto> productodisponible = productoRepository.findByDescuentoMarcaTienda(marca, descuento, disponibilidad, tienda);
+        if (productodisponible !=null) {
+            return productoRepository.findByDescuentoMarcaTienda(marca, descuento, disponibilidad, tienda);
         }
         return null;
     }
 
-//Obtener productos baratos
-    public List<Producto> obtenerProductoMenor(Integer precioMenor) {
-        List<Producto> productoBarato = productoRepository.findProductoMenor(precioMenor);
-        if (productoBarato !=null) {
-            return productoRepository.findProductoMenor(precioMenor);
-        }
-        return null;
-    }
-
-//Obtener productos caros
-    public List<Producto> obtenerProductoMayor(Integer precioMayor){
-        List<Producto> productoCaro = productoRepository.findProductoMayor(precioMayor);
-        if (productoCaro !=null) {
-            return productoRepository.findProductoMayor(precioMayor);
-        }
-        return null;
-    }
 
 //Agregar producto
     public Producto save(Producto producto){
@@ -130,5 +201,4 @@ public class ProductoService {
     public void delete(Long id){
         productoRepository.deleteById(id);
     }
-
 }

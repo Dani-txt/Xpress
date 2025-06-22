@@ -58,33 +58,102 @@ public class ProductoControllerV2 {
         return ResponseEntity.ok(assembler.toModel(producto));
     }
 
-    @GetMapping(value = "/preciomayor", produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getProductosCaros(@RequestParam("preciomayor") Integer preciomayor) {
-        List<EntityModel<Producto>> productos = productoService.obtenerProductoMayor(preciomayor).stream()
-            .map(assembler::toModel)
-            .collect(Collectors.toList());
-        if (productos.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(CollectionModel.of(productos));
-    }
-
-    @GetMapping(value = "/preciosmenores", produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getProductosBaratos(@RequestParam("preciomenor") Integer preciomenor) {
-        List<EntityModel<Producto>> productos = productoService.obtenerProductoMenor(preciomenor).stream()
-            .map(assembler::toModel)
-            .collect(Collectors.toList());
-        if (productos.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(CollectionModel.of(productos));
-    }
-
     @GetMapping(value = "/marcas", produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getByMarca(@RequestParam("marca") String marca) {
-        List<EntityModel<Producto>> productos = productoService.obtenerProductoPorMarca(marca).stream()
+    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getMarca(@RequestParam("marca") String marca) {
+        List<EntityModel<Producto>> productos = productoService.findByProductoMarca(marca).stream()
             .map(assembler::toModel)
             .collect(Collectors.toList());
+        if (productos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(CollectionModel.of(productos));
+    }
+
+    @GetMapping(value = "/preciosmayores", produces = MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getProductoMayor(@RequestParam("precio") Integer precio) {
+        List<EntityModel<Producto>> productos = productoService.findByProductoMayor(precio).stream()
+            .map(assembler::toModel)
+            .collect(Collectors.toList());
+        if (productos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(CollectionModel.of(productos));
+    }
+
+
+    @GetMapping(value="/preciosmayores/marcas", produces=MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getProductoMayorMarca(@RequestParam("precio") Integer precio, @RequestParam("marca")String marca){
+        List<EntityModel<Producto>> productos = productoService.findByProductoMayorMarca(precio, marca).stream()
+        .map(assembler::toModel)
+        .collect(Collectors.toList());
+        if (productos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(CollectionModel.of(productos));
+    }
+
+
+    @GetMapping(value ="/preciosmenores", produces = MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getProductosBaratos(@RequestParam("precio") Integer precio) {
+        List<EntityModel<Producto>> productos = productoService.findByProductoMenor(precio).stream()
+            .map(assembler::toModel)
+            .collect(Collectors.toList());
+        if (productos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(CollectionModel.of(productos));
+    }
+
+        @GetMapping(value="/preciosmenores/marcas", produces=MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getProductoMenorMarca(@RequestParam("precio") Integer precio, @RequestParam("marca")String marca){
+        List<EntityModel<Producto>> productos = productoService.findByProductoMenorMarca(precio, marca).stream()
+        .map(assembler::toModel)
+        .collect(Collectors.toList());
+        if (productos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(CollectionModel.of(productos));
+    }
+
+    @GetMapping(value="/marcas/descuentos", produces=MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getDescuentoMarca(@RequestParam("marca")String marca, @RequestParam("descuento") Double descuento, @RequestParam("disponibilidad")Boolean disponibilidad){
+        List<EntityModel<Producto>> productos = productoService.findByDescuentoMarca(marca, descuento, disponibilidad).stream()
+        .map(assembler::toModel)
+        .collect(Collectors.toList());
+        if (productos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(CollectionModel.of(productos));
+    }
+
+
+    @GetMapping(value="/marcas/descuentos/tiendas", produces=MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getProductoDescuentoMarcaTienda(@RequestParam("marca")String marca, @RequestParam("descuento") Double descuento, @RequestParam("disponibilidad")Boolean disponibilidad, @RequestParam("tienda") String tienda){
+        List<EntityModel<Producto>> productos = productoService.findByDescuentoMarcaTienda(marca, descuento, disponibilidad, tienda).stream()
+        .map(assembler::toModel)
+        .collect(Collectors.toList());
+        if (productos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(CollectionModel.of(productos));
+    }
+
+    @GetMapping(value="/preciosmayores/marcas/descuentos", produces=MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getProductoPrecioMayorDescuentoMarca(@RequestParam("precio") Integer precio, @RequestParam("marca")String marca, @RequestParam("descuento") Double descuento, @RequestParam("disponibilidad")Boolean disponibilidad){
+        List<EntityModel<Producto>> productos = productoService.findByProductoPrecioMayorDescuentoMarca(precio, marca, descuento, disponibilidad).stream()
+        .map(assembler::toModel)
+        .collect(Collectors.toList());
+        if (productos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(CollectionModel.of(productos));
+    }
+
+    @GetMapping(value="/preciosmenores/marcas/descuentos", produces=MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getProductoPrecioMenorDescuentoMarca(@RequestParam("precio") Integer precio, @RequestParam("marca")String marca, @RequestParam("descuento") Double descuento, @RequestParam("disponibilidad")Boolean disponibilidad){
+        List<EntityModel<Producto>> productos = productoService.findByProductoPrecioMenorDescuentoMarca(precio, marca, descuento, disponibilidad).stream()
+        .map(assembler::toModel)
+        .collect(Collectors.toList());
         if (productos.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -92,7 +161,7 @@ public class ProductoControllerV2 {
     }
 
     @GetMapping(value = "/categoria/{nombre}", produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getByCategoria(@PathVariable String nombre) {
+    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getCategoria(@PathVariable String nombre) {
         List<EntityModel<Producto>> productos = productoService.findByCategoriaProducto(nombre).stream()
             .map(assembler::toModel)
             .collect(Collectors.toList());
@@ -103,7 +172,7 @@ public class ProductoControllerV2 {
     }
 
     @GetMapping(value = "/disponibles/{disponibilidad}", produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getByDisponibilidad(@PathVariable Boolean disponibilidad) {
+    public ResponseEntity<CollectionModel<EntityModel<Producto>>> getDisponibilidad(@PathVariable Boolean disponibilidad) {
         List<EntityModel<Producto>> productos = productoService.findByDisponibilidad(disponibilidad).stream()
             .map(assembler::toModel)
             .collect(Collectors.toList());
@@ -136,8 +205,6 @@ public class ProductoControllerV2 {
         }
         return ResponseEntity.ok(assembler.toModel(updatedProducto));
     }
-
-
 
     @DeleteMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<Void> deleteProducto(@PathVariable Long id) {

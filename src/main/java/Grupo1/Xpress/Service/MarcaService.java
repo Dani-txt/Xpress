@@ -53,7 +53,7 @@ public class MarcaService {
     public Marca patchMarca(Long id, Marca marcaParcial){
     Optional<Marca> marcaOptional = marcaRepository.findById(id);
         if (marcaOptional.isPresent()) {
-           Marca marcaToUpdate = marcaOptional.get();
+            Marca marcaToUpdate = marcaOptional.get();
             if (marcaParcial.getNombre() != null) {
                 marcaToUpdate.setNombre(marcaParcial.getNombre());
                 }

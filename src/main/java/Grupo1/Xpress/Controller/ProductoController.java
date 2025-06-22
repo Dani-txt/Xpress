@@ -61,7 +61,7 @@ public class ProductoController {
 
     @GetMapping("/marca")
     public ResponseEntity<List<Producto>> productosPorMarca(@RequestParam("marca") String marca) {
-        List<Producto> productoMarca = productoService.obtenerProductoPorMarca(marca);
+        List<Producto> productoMarca = productoService.findByProductoMarca(marca);
         if(productoMarca.isEmpty()){
             return ResponseEntity.noContent().build();
         }
@@ -71,7 +71,7 @@ public class ProductoController {
 //Obtener productos mas baratos (Dependerá de la Query en el repository)
     @GetMapping("/preciosmenores")
     public ResponseEntity<List<Producto>> ProductoMenor(@RequestParam("preciomenor") Integer preciomenor) {
-        List<Producto> productosBaratos = productoService.obtenerProductoMenor(preciomenor);
+        List<Producto> productosBaratos = productoService.findByProductoMenor(preciomenor);
         if(productosBaratos.isEmpty()){
             return ResponseEntity.noContent().build();
         }
@@ -81,7 +81,7 @@ public class ProductoController {
 //Obtener los productos mas caros (Depende del Query)
     @GetMapping("/preciosmayores")
     public ResponseEntity<List<Producto>> ProductoMayor(@RequestParam("preciomayor") Integer preciomayor) {
-        List<Producto> productosCaros = productoService.obtenerProductoMayor(preciomayor);
+        List<Producto> productosCaros = productoService.findByProductoMayor(preciomayor);
         if(productosCaros.isEmpty()){
             return ResponseEntity.noContent().build();
         }

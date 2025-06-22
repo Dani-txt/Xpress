@@ -13,12 +13,14 @@ import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import Grupo1.Xpress.Modelo.RolUsuario;
 import Grupo1.Xpress.Modelo.Usuario;
 import Grupo1.Xpress.Repository.UsuarioRepository;
 import Grupo1.Xpress.Service.UsuarioService;
 
+@ActiveProfiles("test")
 @SpringBootTest
 public class UsuarioServiceTest {
 
@@ -97,6 +99,4 @@ public class UsuarioServiceTest {
         usuarioService.delete(1L);
         verify(UsuarioRepository, times(1)).deleteById(1L);
     }
-
-
 }

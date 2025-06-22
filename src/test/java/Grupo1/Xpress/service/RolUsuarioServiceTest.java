@@ -14,11 +14,13 @@ import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import Grupo1.Xpress.Modelo.RolUsuario;
 import Grupo1.Xpress.Repository.RolUsuarioRepository;
 import Grupo1.Xpress.Service.RolUsuarioService;
 
+@ActiveProfiles("test")
 @SpringBootTest
 public class RolUsuarioServiceTest {
 
