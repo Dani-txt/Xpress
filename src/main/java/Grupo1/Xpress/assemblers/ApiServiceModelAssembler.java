@@ -12,7 +12,6 @@ import Grupo1.Xpress.Modelo.ApiService;
 
 @Component
 public class ApiServiceModelAssembler implements RepresentationModelAssembler<ApiService, EntityModel<ApiService>> {
-
   @SuppressWarnings("null")
 
   @Override

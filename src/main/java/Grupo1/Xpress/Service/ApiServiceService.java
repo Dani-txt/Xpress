@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import Grupo1.Xpress.Modelo.ApiService;
 import Grupo1.Xpress.Repository.ApiServiceRepository;
+import Grupo1.Xpress.Repository.ProductoRepository;
 import jakarta.transaction.Transactional;
 
 
@@ -16,6 +17,8 @@ import jakarta.transaction.Transactional;
 public class ApiServiceService {
     @Autowired
     private ApiServiceRepository apiServiceRepository;
+    @Autowired
+    private ProductoRepository productoRepository;
 
     public List<ApiService> findAll(){
         return apiServiceRepository.findAll();
@@ -65,7 +68,9 @@ public class ApiServiceService {
         //1ero se busca a la api por su id
         ApiService apiService = apiServiceRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
-        //Al ser encontrada se elimina
+        //Se elimina en el producto
+        productoRepository.deleteByApiService(apiService);
+        //Se elimina del todo
         apiServiceRepository.delete(apiService);
     }
 

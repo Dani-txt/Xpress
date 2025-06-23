@@ -13,9 +13,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name= "apiService")
+@Table(name= "api_service")
 @AllArgsConstructor
-
 public class ApiService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

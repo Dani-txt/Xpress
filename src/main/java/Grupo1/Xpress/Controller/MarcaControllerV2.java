@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import Grupo1.Xpress.Modelo.Marca;
 import Grupo1.Xpress.Service.MarcaService;
 import Grupo1.Xpress.assemblers.MarcaModelAssembler;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/api/v2/marcas")
@@ -34,6 +35,7 @@ public class MarcaControllerV2 {
     public MarcaModelAssembler assembler;
 
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api encuentra todas las marcas", description = "Esta api encuentra todas las marcas")
     public ResponseEntity<CollectionModel<EntityModel<Marca>>> getAllMarca(){
         List<EntityModel<Marca>> marcas = marcaService.findAll().stream()
             .map(assembler::toModel)
@@ -48,6 +50,7 @@ public class MarcaControllerV2 {
     }
 
     @GetMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api encuentra una marca por su id", description = "Esta api encuentra una marca por su id")
     public ResponseEntity<EntityModel<Marca>> getMarcaById(@PathVariable Long id) {
         Marca marca = marcaService.findById(id);
         if (marca == null) {
@@ -57,7 +60,8 @@ public class MarcaControllerV2 {
     }
 
     @PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<EntityModel<Marca>> createCategoriaProducto(@RequestBody Marca marca) {
+    @Operation(summary = "Esta api crea una marca", description = "Esta api crea una marca")
+    public ResponseEntity<EntityModel<Marca>> createMarca(@RequestBody Marca marca) {
         Marca newMarca = marcaService.save(marca);
             return ResponseEntity
             .created(linkTo(methodOn(MarcaControllerV2.class).getMarcaById(newMarca.getId())).toUri())
@@ -65,6 +69,7 @@ public class MarcaControllerV2 {
     }
 
     @PutMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api actualiza una marca por su id", description = "Esta api actualiza una marca por su id")
     public ResponseEntity<EntityModel<Marca>> updateMarca(@PathVariable Long id, @RequestBody Marca marca) {
         marca.setId(id);
         Marca updatedMarca = marcaService.save(marca);
@@ -72,6 +77,7 @@ public class MarcaControllerV2 {
     }
 
     @PatchMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api edita una marca por su id", description = "Esta api edita una marca por su id")
     public ResponseEntity<EntityModel<Marca>> patchMarca(@PathVariable Long id, @RequestBody Marca marca) {
         Marca updatedMarca = marcaService.patchMarca(id, marca);
         if (updatedMarca == null) {
@@ -81,6 +87,7 @@ public class MarcaControllerV2 {
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api elimina una marca por su id", description = "Esta api elimina una marca por su id")
     public ResponseEntity<Void> deleteMarca(@PathVariable Long id) {
         Marca marca = marcaService.findById(id);
         if (marca == null) {

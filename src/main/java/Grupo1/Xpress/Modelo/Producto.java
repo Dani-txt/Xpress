@@ -43,10 +43,10 @@ public class Producto {
     private ApiService apiService;
 
     @ManyToOne
-    @JoinColumn(name="Marca_id", nullable=false)
+    @JoinColumn(name="marca_id", nullable=false)
     private Marca marca;
 
     @ManyToOne
-    @JoinColumn(name="Oferta_id", nullable=true)
+    @JoinColumn(name="oferta_id", nullable=true)
     private Oferta oferta;
 }

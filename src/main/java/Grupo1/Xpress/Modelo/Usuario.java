@@ -27,7 +27,6 @@ public class Usuario {
     @Column(length=50, nullable=false)
     private String nombre;
 
-
     @Column(length=50, nullable=false)
     private String apellido;
 
@@ -39,7 +38,7 @@ public class Usuario {
     private String correo;
 
     @ManyToOne
-    @JoinColumn(name="rolUsuario_id", nullable=false)
+    @JoinColumn(name="rol_usuario_id", nullable=false)
     private RolUsuario rolUsuario;
 
 }

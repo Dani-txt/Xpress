@@ -6,9 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Grupo1.Xpress.Modelo.RolUsuario;
 import Grupo1.Xpress.Modelo.Usuario;
-import Grupo1.Xpress.Repository.RolUsuarioRepository;
+import Grupo1.Xpress.Repository.FavoritoRepository;
 import Grupo1.Xpress.Repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 
@@ -19,7 +18,7 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private RolUsuarioRepository rolUsuarioRepository;
+    private FavoritoRepository favoritoRepository;
 
     public List<Usuario>findAll(){
         return usuarioRepository.findAll();
@@ -77,19 +76,15 @@ public class UsuarioService {
         }
     }
 
-    public void deleteById(Long id) {
+    public void eliminarUsuarioPorId(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        RolUsuario rol = usuario.getRolUsuario();
-
-        // Verificar si otros usuarios usan ese rol
-        Long cantidadUsuariosConEseRol = usuarioRepository.countByRolUsuario(rol);
-        if (cantidadUsuariosConEseRol == 0) {
-            rolUsuarioRepository.delete(rol); // eliminar el rol si está "huérfano"
-        }
-
-        // Eliminar el usuario
-        usuarioRepository.delete(usuario);
+        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        // 1. Elimina los favoritos del usuario
+        favoritoRepository.deleteByUsuarioId(id);
+        // 2. Elimina el usuario
+        usuarioRepository.deleteById(id);
     }
+
+    
+
 }

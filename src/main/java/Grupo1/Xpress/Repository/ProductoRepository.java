@@ -7,7 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import Grupo1.Xpress.Modelo.ApiService;
 import Grupo1.Xpress.Modelo.CategoriaProducto;
+import Grupo1.Xpress.Modelo.Marca;
+import Grupo1.Xpress.Modelo.Oferta;
 import Grupo1.Xpress.Modelo.Producto;
 
 @Repository
@@ -118,4 +121,15 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
         List<Producto> findByDisponibilidad(Boolean disponibilidad);
         List<Producto> findByCategoriaProducto(CategoriaProducto categoriaProducto);
         List<Producto> findByPrecioAndDisponibilidad(Integer precio, Boolean disponibilidad);
+
+        void deleteByOferta(Oferta oferta);
+
+        void deleteByCategoriaProducto(CategoriaProducto categoriapRodcuto);
+
+        void deleteByMarca(Marca marca);
+
+        void deleteByApiService(ApiService apiServie);
+
+
+
 }

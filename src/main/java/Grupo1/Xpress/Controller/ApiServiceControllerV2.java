@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import Grupo1.Xpress.Modelo.ApiService;
 import Grupo1.Xpress.Service.ApiServiceService;
 import Grupo1.Xpress.assemblers.ApiServiceModelAssembler;
+import io.swagger.v3.oas.annotations.Operation;
 
 
 
@@ -37,6 +38,7 @@ public class ApiServiceControllerV2 {
     public ApiServiceModelAssembler assembler;
 
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api llama todos las api de tiendas", description = "Esta api llama todos las api de tiendas")
     public ResponseEntity<CollectionModel<EntityModel<ApiService>>> getAllApiServices(){
         List<EntityModel<ApiService>> apiservices = apiServiceService.findAll().stream()
             .map(assembler::toModel)
@@ -51,6 +53,7 @@ public class ApiServiceControllerV2 {
     }
 
     @GetMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api llama todos a una api por su id", description = "Esta api llama todos a una api por su id")
     public ResponseEntity<EntityModel<ApiService>> getApiServiceById(@PathVariable Long id) {
         ApiService apiService = apiServiceService.findById(id);
         if (apiService == null) {
@@ -60,6 +63,7 @@ public class ApiServiceControllerV2 {
     }
 
     @PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api crea una nueva ap", description = "Esta api crea una nueva api de tienda")
     public ResponseEntity<EntityModel<ApiService>> createApiService(@RequestBody ApiService apiService) {
         ApiService newApiService = apiServiceService.save(apiService);
             return ResponseEntity
@@ -68,6 +72,7 @@ public class ApiServiceControllerV2 {
     }
 
     @PutMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api actualiza una nueva api por su id", description = "Esta api actualiza una nueva api por su id")
     public ResponseEntity<EntityModel<ApiService>> updateApiService(@PathVariable Long id, @RequestBody ApiService apiService) {
         apiService.setId(id);
         ApiService updatedApiService = apiServiceService.save(apiService);
@@ -75,6 +80,7 @@ public class ApiServiceControllerV2 {
     }
 
     @PatchMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api edita una nueva api por su id", description = "Esta api edita una nueva api por su id")
     public ResponseEntity<EntityModel<ApiService>> patchApiService(@PathVariable Long id, @RequestBody ApiService apiService) {
         ApiService updatedApiService = apiServiceService.patchApiService(id, apiService);
         if (updatedApiService == null) {
@@ -84,6 +90,7 @@ public class ApiServiceControllerV2 {
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api elimina una nueva api por su id", description = "Esta api elimina una nueva api por su id")
     public ResponseEntity<Void> deleteApiService(@PathVariable Long id) {
         ApiService apiService = apiServiceService.findById(id);
         if (apiService == null) {

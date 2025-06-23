@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import Grupo1.Xpress.Modelo.Usuario;
 import Grupo1.Xpress.Service.UsuarioService;
 import Grupo1.Xpress.assemblers.UsuarioModelAssembler;
+import io.swagger.v3.oas.annotations.Operation;
 
 
 @RestController
@@ -36,6 +37,7 @@ public class UsuarioControllerV2 {
     public UsuarioModelAssembler assembler;
 
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api encuentra todos los usuarios", description = "Esta api encuentra todos los usuarios")
     public ResponseEntity<CollectionModel<EntityModel<Usuario>>> getAllUsuarios(){
         List<EntityModel<Usuario>> usuario = usuarioService.findAll().stream()
             .map(assembler::toModel)
@@ -50,6 +52,7 @@ public class UsuarioControllerV2 {
     }
 
     @GetMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api encuentra ofertas por id", description = "Esta api encuentra ofertas por id")
     public ResponseEntity<EntityModel<Usuario>> getUsuarioById(@PathVariable Long id) {
         Usuario usuario = usuarioService.findById(id);
         if (usuario == null) {
@@ -61,6 +64,7 @@ public class UsuarioControllerV2 {
 
 
     @GetMapping(value = "/rol/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api encuentra a un usuario por su rol", description = "Esta api encuentra a un usuario por su rol")
     public ResponseEntity<CollectionModel<EntityModel<Usuario>>> getUsuarioByRol(@PathVariable Long rolId){
         List<Usuario> usuarios = usuarioService.findByRolUsuarioId(rolId);
         if (usuarios.isEmpty()) {
@@ -77,6 +81,7 @@ public class UsuarioControllerV2 {
     
 
     @PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api crea usuarios", description = "Esta api crea usuarios")
     public ResponseEntity<EntityModel<Usuario>> createUsuario(@RequestBody Usuario usuario) {
         Usuario newUsuario = usuarioService.save(usuario);
             return ResponseEntity
@@ -85,6 +90,7 @@ public class UsuarioControllerV2 {
     }
 
     @PutMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api actualiza los usuarios por el id", description = "Esta api actualiza los usuarios por id")
     public ResponseEntity<EntityModel<Usuario>> updateUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
         usuario.setId(id);
         Usuario updatedUsuario = usuarioService.save(usuario);
@@ -92,6 +98,7 @@ public class UsuarioControllerV2 {
     }
 
     @PatchMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api edita los usuarios por el id", description = "Esta api edita los usuarios por id")
     public ResponseEntity<EntityModel<Usuario>> patchUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
         Usuario updatedUsuario = usuarioService.patchUsuario(id, usuario);
         if (updatedUsuario == null) {
@@ -101,12 +108,13 @@ public class UsuarioControllerV2 {
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api elimina los usuarios por el id", description = "Esta api elimina los usuarios por id")
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
         Usuario usuario = usuarioService.findById(id);
         if (usuario == null) {
             return ResponseEntity.notFound().build();
     }
-        usuarioService.deleteById(id);
+        usuarioService.eliminarUsuarioPorId(id);
         return ResponseEntity.noContent().build();
     }
 }

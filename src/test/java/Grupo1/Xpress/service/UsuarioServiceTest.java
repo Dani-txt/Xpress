@@ -96,7 +96,7 @@ public class UsuarioServiceTest {
     @Test
     public void testDeleteById() {
         doNothing().when(UsuarioRepository).deleteById(1L);
-        usuarioService.deleteById(1L);
+        usuarioService.eliminarUsuarioPorId(1L);
         verify(UsuarioRepository, times(1)).deleteById(1L);
     }
 }

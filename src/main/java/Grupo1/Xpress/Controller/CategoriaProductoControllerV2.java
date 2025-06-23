@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import Grupo1.Xpress.Modelo.CategoriaProducto;
 import Grupo1.Xpress.Service.CategoriaProductoService;
 import Grupo1.Xpress.assemblers.CategoriaProductoModelAssembler;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/api/v2/categoriasproductos")
@@ -34,6 +35,7 @@ public class CategoriaProductoControllerV2 {
     public CategoriaProductoModelAssembler assembler;
 
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api encuentra todas las categorias de productos", description = "Esta api encuentra todas las categorias de productos")
     public ResponseEntity<CollectionModel<EntityModel<CategoriaProducto>>> getAllCategoriaProducto(){
         List<EntityModel<CategoriaProducto>> categoriaProductos = categoriaProductoService.findAll().stream()
             .map(assembler::toModel)
@@ -48,6 +50,7 @@ public class CategoriaProductoControllerV2 {
     }
 
     @GetMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api encuentra una categorias de producto por su id", description = "Esta api encuentra una categorias de producto por su id")
     public ResponseEntity<EntityModel<CategoriaProducto>> getCategoriaProductoById(@PathVariable Long id) {
         CategoriaProducto categoriaProducto = categoriaProductoService.findById(id);
         if (categoriaProducto == null) {
@@ -57,6 +60,7 @@ public class CategoriaProductoControllerV2 {
     }
 
     @PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api crea una categorias de producto", description = "Esta api crea una categorias de producto")
     public ResponseEntity<EntityModel<CategoriaProducto>> createCategoriaProducto(@RequestBody CategoriaProducto categoriaProducto) {
         CategoriaProducto newCategoriaProducto = categoriaProductoService.save(categoriaProducto);
             return ResponseEntity
@@ -65,6 +69,7 @@ public class CategoriaProductoControllerV2 {
     }
 
     @PutMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api actualizar una categorias de producto por su id", description = "Esta api actualizar una categorias de producto por su id")
     public ResponseEntity<EntityModel<CategoriaProducto>> updateCategoriaProducto(@PathVariable Long id, @RequestBody CategoriaProducto categoriaProducto) {
         categoriaProducto.setId(id);
         CategoriaProducto updatedCategoriaProducto = categoriaProductoService.save(categoriaProducto);
@@ -72,6 +77,7 @@ public class CategoriaProductoControllerV2 {
     }
 
     @PatchMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api editar una categorias de producto por su id", description = "Esta api editar una categorias de producto por su id")
     public ResponseEntity<EntityModel<CategoriaProducto>> patchCategoriaProducto(@PathVariable Long id, @RequestBody CategoriaProducto categoriaProducto) {
         CategoriaProducto updatedCategoriaProducto = categoriaProductoService.patchCategoriaProducto(id, categoriaProducto);
         if (updatedCategoriaProducto == null) {
@@ -81,6 +87,7 @@ public class CategoriaProductoControllerV2 {
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api elimina una categorias de producto por su id", description = "Esta api elimina una categorias de producto por su id")
     public ResponseEntity<Void> deleteCategoriaProducto(@PathVariable Long id) {
         CategoriaProducto categoriaProducto = categoriaProductoService.findById(id);
         if (categoriaProducto == null) {

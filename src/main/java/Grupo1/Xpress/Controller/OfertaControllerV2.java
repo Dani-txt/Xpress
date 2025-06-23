@@ -23,17 +23,19 @@ import org.springframework.web.bind.annotation.RestController;
 import Grupo1.Xpress.Modelo.Oferta;
 import Grupo1.Xpress.Service.OfertaService;
 import Grupo1.Xpress.assemblers.OfertaModelAssembler;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/api/v2/ofertas")
 public class OfertaControllerV2 {
-@Autowired
+    @Autowired
     public OfertaService ofertaService;
 
     @Autowired
     public OfertaModelAssembler assembler;
 
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api encuentra todas las ofertas", description = "Esta api encuentra todas las ofertas")
     public ResponseEntity<CollectionModel<EntityModel<Oferta>>> getAllOferta(){
         List<EntityModel<Oferta>> ofertas = ofertaService.findAll().stream()
             .map(assembler::toModel)
@@ -48,6 +50,7 @@ public class OfertaControllerV2 {
     }
 
     @GetMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api encuentra ofertas por id", description = "Esta api encuentra ofertas por id")
     public ResponseEntity<EntityModel<Oferta>> getOfertaById(@PathVariable Long id) {
         Oferta oferta = ofertaService.findById(id);
         if (oferta == null) {
@@ -57,6 +60,7 @@ public class OfertaControllerV2 {
     }
 
     @PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api crea ofertas", description = "Esta api crea ofertas")
     public ResponseEntity<EntityModel<Oferta>> createOferta(@RequestBody Oferta oferta) {
         Oferta newOferta = ofertaService.save(oferta);
             return ResponseEntity
@@ -65,6 +69,7 @@ public class OfertaControllerV2 {
     }
 
     @PutMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api actualiza las ofertas por el id", description = "Esta api actualiza las ofertas por id")
     public ResponseEntity<EntityModel<Oferta>> updateOferta(@PathVariable Long id, @RequestBody Oferta oferta) {
         oferta.setId(id);
         Oferta updatedOferta = ofertaService.save(oferta);
@@ -72,6 +77,7 @@ public class OfertaControllerV2 {
     }
 
     @PatchMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api edita las ofertas por el id", description = "Esta api edita las ofertas por id")
     public ResponseEntity<EntityModel<Oferta>> patchOferta(@PathVariable Long id, @RequestBody Oferta oferta) {
         Oferta updatedOferta = ofertaService.patchOferta(id, oferta);
         if (updatedOferta == null) {
@@ -81,6 +87,7 @@ public class OfertaControllerV2 {
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api elimina las ofertas por el id", description = "Esta api elimina las ofertas por id")
     public ResponseEntity<Void> deleteOferta(@PathVariable Long id) {
         Oferta oferta = ofertaService.findById(id);
         if (oferta == null) {

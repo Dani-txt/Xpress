@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import Grupo1.Xpress.Modelo.Oferta;
 import Grupo1.Xpress.Repository.OfertaRepository;
+import Grupo1.Xpress.Repository.ProductoRepository;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -16,6 +17,9 @@ public class OfertaService {
     
     @Autowired
     private OfertaRepository ofertaRepository;
+
+    @Autowired
+    private ProductoRepository productoRepository;
 
     // Obtener todas las ofertas
     public List<Oferta> findAll() {
@@ -67,7 +71,9 @@ public class OfertaService {
         //1ero se busca a la api por su id
         Oferta oferta = ofertaRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
-        //Al ser encontrada se elimina
+        //Se elimina la oferta del producto
+        productoRepository.deleteByOferta(oferta);
+        //se elimina la oferta
         ofertaRepository.delete(oferta);
     }
 }

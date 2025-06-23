@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import Grupo1.Xpress.Modelo.Marca;
 import Grupo1.Xpress.Repository.MarcaRepository;
+import Grupo1.Xpress.Repository.ProductoRepository;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -15,6 +16,10 @@ import jakarta.transaction.Transactional;
 public class MarcaService {
     @Autowired
     private MarcaRepository marcaRepository;
+
+    @Autowired
+    private ProductoRepository productoRepository;
+
     //lista de todas las categorías
     public List<Marca> findAll(){
         return marcaRepository.findAll();
@@ -64,7 +69,9 @@ public class MarcaService {
         //1ero se busca a la api por su id
         Marca marca = marcaRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
-        //Al ser encontrada se elimina
+        //Se elimina la marca del producto
+        productoRepository.deleteByMarca(marca);
+        //se elimina la marca
         marcaRepository.delete(marca);
     }
 }

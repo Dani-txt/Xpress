@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import Grupo1.Xpress.Modelo.RolUsuario;
 import Grupo1.Xpress.Service.RolUsuarioService;
 import Grupo1.Xpress.assemblers.RolUsuarioModelAssembler;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/api/v2/rolesusuarios")
@@ -34,6 +35,7 @@ public class RolUsuarioControllerV2 {
     public RolUsuarioModelAssembler assembler;
 
     @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api encuentra todos los Roles de usuarios", description = "Esta api encuentra todos los roles de usuarios")
     public ResponseEntity<CollectionModel<EntityModel<RolUsuario>>> getAllRolUsuario(){
         List<EntityModel<RolUsuario>> rolUsuario = rolUsuarioService.findAll().stream()
             .map(assembler::toModel)
@@ -48,6 +50,7 @@ public class RolUsuarioControllerV2 {
     }
 
     @GetMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api encuentra los Roles de usuarios por el id", description = "Esta api encuentra los roles de usuarios por id")
     public ResponseEntity<EntityModel<RolUsuario>> getRolUsuarioById(@PathVariable Long id) {
         RolUsuario rolUsuario = rolUsuarioService.findById(id);
         if (rolUsuario == null) {
@@ -57,6 +60,7 @@ public class RolUsuarioControllerV2 {
     }
 
     @PostMapping(produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api crea los Roles de usuarios por el id", description = "Esta api crea los roles de usuarios por id")
     public ResponseEntity<EntityModel<RolUsuario>> createRolUsuario(@PathVariable Long id, @RequestBody RolUsuario rolUsuario) {
         RolUsuario newRolUsuario = rolUsuarioService.save(rolUsuario);
             return ResponseEntity
@@ -65,6 +69,7 @@ public class RolUsuarioControllerV2 {
     }
 
     @PutMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api actualiza los Roles de usuarios por el id", description = "Esta api actualiza los roles de usuarios por id")
     public ResponseEntity<EntityModel<RolUsuario>> updateRolUsuario(@PathVariable Long id, @RequestBody RolUsuario rolUsuario) {
         rolUsuario.setId(id);
         RolUsuario updatedRolUsuario = rolUsuarioService.save(rolUsuario);
@@ -72,6 +77,7 @@ public class RolUsuarioControllerV2 {
     }
 
     @PatchMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api edita los Roles de usuarios por el id", description = "Esta api edita los roles de usuarios por id")
     public ResponseEntity<EntityModel<RolUsuario>> patchRolUsuario(@PathVariable Long id, @RequestBody RolUsuario rolUsuario) {
         RolUsuario updatedRolUsuario = rolUsuarioService.patchRolUsuario(id, rolUsuario);
         if (updatedRolUsuario == null) {
@@ -81,6 +87,7 @@ public class RolUsuarioControllerV2 {
     }
 
     @DeleteMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
+    @Operation(summary = "Esta api elimina los Roles de usuarios por el id", description = "Esta api elimina los roles de usuarios por id")
     public ResponseEntity<Void> deleteRolUsuario(@PathVariable Long id) {
         RolUsuario rolUsuario = rolUsuarioService.findById(id);
         if (rolUsuario == null) {
