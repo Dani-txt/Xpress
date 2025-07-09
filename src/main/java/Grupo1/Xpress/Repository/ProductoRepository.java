@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import Grupo1.Xpress.Modelo.ApiService;
+import Grupo1.Xpress.Modelo.ApiTienda;
 import Grupo1.Xpress.Modelo.CategoriaProducto;
 import Grupo1.Xpress.Modelo.Marca;
 import Grupo1.Xpress.Modelo.Oferta;
@@ -78,7 +78,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
                 FROM Producto p
                 JOIN p.marca m
                 JOIN p.oferta o
-                JOIN p.apiService a
+                JOIN p.apiTienda a
                 WHERE m.nombre = :nombre AND o.descuento = :descuento AND p.disponibilidad = :disponibilidad AND a.nombre = :tienda
                 ORDER BY p.precio ASC
                 """)
@@ -122,13 +122,9 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
         List<Producto> findByCategoriaProducto(CategoriaProducto categoriaProducto);
         List<Producto> findByPrecioAndDisponibilidad(Integer precio, Boolean disponibilidad);
 
-        void deleteByOferta(Oferta oferta);
-
-        void deleteByCategoriaProducto(CategoriaProducto categoriapRodcuto);
-
-        void deleteByMarca(Marca marca);
-
-        void deleteByApiService(ApiService apiServie);
+        List<Producto> findByMarca(Marca marca);
+        List<Producto> findByApiTienda(ApiTienda apiTienda);
+        List<Producto> findByOferta(Oferta oferta);
 
 
 

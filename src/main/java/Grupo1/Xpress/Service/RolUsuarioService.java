@@ -7,14 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import Grupo1.Xpress.Modelo.Favorito;
 import Grupo1.Xpress.Modelo.RolUsuario;
+import Grupo1.Xpress.Modelo.Usuario;
+import Grupo1.Xpress.Repository.FavoritoRepository;
 import Grupo1.Xpress.Repository.RolUsuarioRepository;
+import Grupo1.Xpress.Repository.UsuarioRepository;
 
 @Service
 @Transactional
 public class RolUsuarioService {
     @Autowired
     private RolUsuarioRepository rolUsuarioRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private FavoritoRepository favoritoRepository;
 
     public List<RolUsuario>findAll(){
         return rolUsuarioRepository.findAll();
@@ -54,11 +64,24 @@ public class RolUsuarioService {
 
     //eliminar rol
     public void deleteById(Long id) {
-        //1ero se busca a la api por su id
-        RolUsuario rolUsuario = rolUsuarioRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
-        //Al ser encontrada se elimina
-        rolUsuarioRepository.delete(rolUsuario);
+        // 1. Buscar el rol
+        RolUsuario rol = rolUsuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
+
+        // 2. Obtener todos los usuarios con ese rol
+        List<Usuario> usuarios = usuarioRepository.findByRolUsuario(rol);
+
+        // 3. Eliminar los favoritos de cada usuario, luego el usuario
+        for (Usuario usuario : usuarios) {
+            List<Favorito> favoritos = favoritoRepository.findByUsuario(usuario);
+            for (Favorito favorito : favoritos) {
+                favoritoRepository.delete(favorito);
+            }
+            usuarioRepository.delete(usuario);
+        }
+
+        // 4. Finalmente, eliminar el rol
+        rolUsuarioRepository.delete(rol);
     }
 
 }

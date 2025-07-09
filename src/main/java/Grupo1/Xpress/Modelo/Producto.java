@@ -39,8 +39,8 @@ public class Producto {
     private CategoriaProducto categoriaProducto;
 
     @ManyToOne
-    @JoinColumn(name="api_service_id", nullable=false)
-    private ApiService apiService;
+    @JoinColumn(name="api_tienda_id", nullable=false)
+    private ApiTienda apiTienda;
 
     @ManyToOne
     @JoinColumn(name="marca_id", nullable=false)

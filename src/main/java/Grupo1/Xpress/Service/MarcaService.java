@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Grupo1.Xpress.Modelo.Marca;
+import Grupo1.Xpress.Modelo.Producto;
 import Grupo1.Xpress.Repository.MarcaRepository;
 import Grupo1.Xpress.Repository.ProductoRepository;
 import jakarta.transaction.Transactional;
@@ -66,12 +67,15 @@ public class MarcaService {
 
     //eliminar marca
     public void deleteById(Long id) {
-        //1ero se busca a la api por su id
         Marca marca = marcaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
-        //Se elimina la marca del producto
-        productoRepository.deleteByMarca(marca);
-        //se elimina la marca
+            .orElseThrow(() -> new RuntimeException("Marca no encontrada"));
+
+        List<Producto> productos = productoRepository.findByMarca(marca);
+
+        for (Producto producto : productos) {
+            productoRepository.delete(producto);
+        }
+
         marcaRepository.delete(marca);
     }
 }

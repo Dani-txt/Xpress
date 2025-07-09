@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import Grupo1.Xpress.Modelo.Favorito;
 import Grupo1.Xpress.Modelo.Usuario;
 import Grupo1.Xpress.Repository.FavoritoRepository;
 import Grupo1.Xpress.Repository.UsuarioRepository;
@@ -76,13 +77,19 @@ public class UsuarioService {
         }
     }
 
-    public void eliminarUsuarioPorId(Long id) {
+        public void deleteById(Long id) {
+        // 1. Verificar existencia del usuario
         Usuario usuario = usuarioRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        // 1. Elimina los favoritos del usuario
-        favoritoRepository.deleteByUsuarioId(id);
-        // 2. Elimina el usuario
-        usuarioRepository.deleteById(id);
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // 2. Eliminar favoritos asociados
+        List<Favorito> favoritos = favoritoRepository.findByUsuario(usuario);
+        for (Favorito favorito : favoritos) {
+            favoritoRepository.delete(favorito);
+        }
+
+        // 3. Eliminar usuario
+        usuarioRepository.delete(usuario);
     }
 
     

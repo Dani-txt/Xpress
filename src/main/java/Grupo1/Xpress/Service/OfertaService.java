@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Grupo1.Xpress.Modelo.Oferta;
+import Grupo1.Xpress.Modelo.Producto;
 import Grupo1.Xpress.Repository.OfertaRepository;
 import Grupo1.Xpress.Repository.ProductoRepository;
 import jakarta.transaction.Transactional;
@@ -68,12 +69,15 @@ public class OfertaService {
 
     //eliminar marca
     public void deleteById(Long id) {
-        //1ero se busca a la api por su id
         Oferta oferta = ofertaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
-        //Se elimina la oferta del producto
-        productoRepository.deleteByOferta(oferta);
-        //se elimina la oferta
+            .orElseThrow(() -> new RuntimeException("Oferta no encontrada"));
+
+        List<Producto> productos = productoRepository.findByOferta(oferta);
+
+        for (Producto producto : productos) {
+            productoRepository.delete(producto);
+        }
+
         ofertaRepository.delete(oferta);
     }
 }

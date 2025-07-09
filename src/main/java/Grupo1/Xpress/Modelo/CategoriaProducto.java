@@ -23,5 +23,4 @@ public class CategoriaProducto {
 
     @Column(length = 50 ,nullable=false)
     private String nombre;
-
 }

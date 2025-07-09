@@ -47,7 +47,7 @@ public class ProductoControllerV2 {
         }
         return ResponseEntity.ok(CollectionModel.of(
         productos,
-        linkTo(methodOn(ApiServiceControllerV2.class).getAllApiServices()).withSelfRel()
+        linkTo(methodOn(ApiTiendaControllerV2.class).getAllApiTiendas()).withSelfRel()
         ));
     }
 
@@ -199,7 +199,7 @@ public class ProductoControllerV2 {
     public ResponseEntity<EntityModel<Producto>> createProducto(@RequestBody Producto producto) {
         Producto newProducto = productoService.save(producto);
             return ResponseEntity
-            .created(linkTo(methodOn(ApiServiceControllerV2.class).getApiServiceById(newProducto.getId())).toUri())
+            .created(linkTo(methodOn(ApiTiendaControllerV2.class).getApiTiendaById(newProducto.getId())).toUri())
             .body(assembler.toModel(newProducto));
     }
 
@@ -228,7 +228,7 @@ public class ProductoControllerV2 {
         if (producto == null) {
             return ResponseEntity.notFound().build();
     }
-        productoService.eliminarProductoPorId(id);
+        productoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

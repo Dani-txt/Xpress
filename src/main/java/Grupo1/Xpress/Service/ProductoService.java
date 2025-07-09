@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Grupo1.Xpress.Modelo.CategoriaProducto;
+import Grupo1.Xpress.Modelo.Favorito;
 import Grupo1.Xpress.Modelo.Producto;
 import Grupo1.Xpress.Repository.CategoriaProductoRepository;
 import Grupo1.Xpress.Repository.FavoritoRepository;
@@ -164,7 +165,7 @@ public class ProductoService {
             productoActualizado.setDescripcion(producto.getDescripcion());
             productoActualizado.setPrecio(producto.getPrecio());
             productoActualizado.setCategoriaProducto(producto.getCategoriaProducto());
-            productoActualizado.setApiService(producto.getApiService());
+            productoActualizado.setApiTienda(producto.getApiTienda());
             return productoRepository.save(productoActualizado);
         } else{
             return null;
@@ -191,8 +192,8 @@ public class ProductoService {
             if (productoParcial.getCategoriaProducto() != null) {
                 productoToUpdate.setCategoriaProducto(productoParcial.getCategoriaProducto());
             }
-            if (productoParcial.getApiService() != null) {
-                productoToUpdate.setApiService(productoParcial.getApiService());
+            if (productoParcial.getApiTienda() != null) {
+                productoToUpdate.setApiTienda(productoParcial.getApiTienda());
             }
             return productoRepository.save(productoToUpdate);
         }
@@ -200,13 +201,21 @@ public class ProductoService {
     }
 
 
-    public void eliminarProductoPorId(Long id) {
+    public void deleteById(Long id) {
+        // 1. Buscar el producto
         Producto producto = productoRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
-        // 1. Elimina los favoritos que referencian este producto
-        favoritoRepository.deleteByProductoId(id);
-        // 2. Elimina el producto
-        productoRepository.deleteById(id);
+            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        // 2. Buscar favoritos que referencien este producto
+        List<Favorito> favoritos = favoritoRepository.findByProducto(producto);
+
+        // 3. Eliminar cada favorito
+        for (Favorito favorito : favoritos) {
+            favoritoRepository.delete(favorito);
+        }
+
+        // 4. Eliminar el producto
+        productoRepository.delete(producto);
     }
 
 

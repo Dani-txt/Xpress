@@ -11,15 +11,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="rol_usuario")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class RolUsuario {
+@Table(name= "api_tienda")
+@AllArgsConstructor
+public class ApiTienda {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length=50, nullable=false)
+    @Column(length = 100, nullable = false)
+    private String url;
+
+    @Column(length = 50,nullable = false)
     private String nombre;
 }

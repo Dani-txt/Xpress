@@ -114,7 +114,7 @@ public class UsuarioControllerV2 {
         if (usuario == null) {
             return ResponseEntity.notFound().build();
     }
-        usuarioService.eliminarUsuarioPorId(id);
+        usuarioService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

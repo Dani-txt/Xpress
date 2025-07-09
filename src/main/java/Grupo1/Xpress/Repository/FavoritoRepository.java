@@ -20,5 +20,4 @@ public interface FavoritoRepository extends JpaRepository<Favorito, Long> {
     void deleteByProductoId(Long productoId);
     // Alternativamente por el ID del usuario
     List<Favorito> findByUsuarioId(Long usuarioId);
-    List<Favorito> findAll();
 }

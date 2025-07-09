@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Grupo1.Xpress.Modelo.CategoriaProducto;
+import Grupo1.Xpress.Modelo.Producto;
 import Grupo1.Xpress.Repository.CategoriaProductoRepository;
 import Grupo1.Xpress.Repository.ProductoRepository;
 import jakarta.transaction.Transactional;
@@ -65,13 +66,20 @@ public class CategoriaProductoService {
 
     //eliminar categoria
     public void deleteById(Long id) {
-        //1ero se busca a la api por su id
-        CategoriaProducto categoriaProducto = categoriaProductoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
-        //Se elimina la categoria del producto
-        productoRepository.deleteByCategoriaProducto(categoriaProducto);
-        //Se elimina la categoria
-        categoriaProductoRepository.delete(categoriaProducto);
+        // 1. Buscar la categoría
+        CategoriaProducto categoria = categoriaProductoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+
+        // 2. Buscar productos asociados a esta categoría
+        List<Producto> productos = productoRepository.findByCategoriaProducto(categoria);
+
+        // 3. Eliminar cada producto asociado (uno por uno)
+        for (Producto producto : productos) {
+            productoRepository.delete(producto);
+        }
+
+        // 4. Eliminar la categoría después de borrar todos sus productos
+        categoriaProductoRepository.delete(categoria);
     }
 
 }

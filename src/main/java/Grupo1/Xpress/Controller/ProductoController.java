@@ -131,7 +131,7 @@ public class ProductoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id){
         try {
-            productoService.eliminarProductoPorId(id);
+            productoService.deleteById(id);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.notFound().build();

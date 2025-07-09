@@ -10,14 +10,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import Grupo1.Xpress.Modelo.ApiService;
+import Grupo1.Xpress.Modelo.ApiTienda;
 import Grupo1.Xpress.Modelo.CategoriaProducto;
 import Grupo1.Xpress.Modelo.Marca;
 import Grupo1.Xpress.Modelo.Oferta;
 import Grupo1.Xpress.Modelo.Producto;
 import Grupo1.Xpress.Modelo.RolUsuario;
 import Grupo1.Xpress.Modelo.Usuario;
-import Grupo1.Xpress.Repository.ApiServiceRepository;
+import Grupo1.Xpress.Repository.ApiTiendaRepository;
 import Grupo1.Xpress.Repository.CategoriaProductoRepository;
 import Grupo1.Xpress.Repository.MarcaRepository;
 import Grupo1.Xpress.Repository.OfertaRepository;
@@ -49,7 +49,7 @@ public class DataLoader implements CommandLineRunner {
     private OfertaRepository ofertaRepository;
 
     @Autowired
-    private ApiServiceRepository apiServiceRepository;
+    private ApiTiendaRepository apiTiendaRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -102,15 +102,6 @@ public class DataLoader implements CommandLineRunner {
 
         // Crear marcas
         String [] nombresMarcas ={
-            "Apple",
-            "Samsung",
-            "Huawei",
-            "Xiaomi",
-            "LG",
-            "Sony",
-            "HP",
-            "Asus",
-            "Lenovo",
             "Nvidia",
             "Intel",
             "AMD",
@@ -143,24 +134,20 @@ public class DataLoader implements CommandLineRunner {
         }
 
         // Crear APIs
-        String[] nombresAPIs = {
+        String[] nombresAPI = {
             "Falabella",
             "MercadoLibre",
-            "Paris",
-            "Ripley",
             "Amazon"
         };
 
         String[] urlApi={
             "https://api.falabella.com",
             "https://api.mercadolibre.com",
-            "https://api.paris.cl",
-            "https://api.ripley.cl",
             "https://api.amazon.com"
         };
 
         List<Integer> indices = new ArrayList<>();
-        for (int i = 0; i < nombresAPIs.length; i++) {
+        for (int i = 0; i < nombresAPI.length; i++) {
             indices.add(i);
         }
 
@@ -168,16 +155,16 @@ public class DataLoader implements CommandLineRunner {
         Collections.shuffle(indices);
         
         for (int i : indices) {
-            ApiService api = new ApiService();
-            api.setNombre(nombresAPIs[i]);
+            ApiTienda api = new ApiTienda();
+            api.setNombre(nombresAPI[i]);
             api.setUrl(urlApi[i]);
-            apiServiceRepository.save(api);
+            apiTiendaRepository.save(api);
         }
 
         List<CategoriaProducto> categorias = categoriaProductoRepository.findAll();
         List<Marca> marcas = marcaRepository.findAll();
         List<Oferta> ofertas = ofertaRepository.findAll();
-        List<ApiService> apis = apiServiceRepository.findAll();
+        List<ApiTienda> apis = apiTiendaRepository.findAll();
         // Crear productos
         String[] nombreProductos={
             "Audifonos",
@@ -194,7 +181,6 @@ public class DataLoader implements CommandLineRunner {
             "Procesador",
             "Memoria RAM",
             "Almacenamiento",
-            "Gabinete",
         };
         for (int i = 0; i < 30; i++) {
             Producto producto = new Producto();
@@ -205,7 +191,7 @@ public class DataLoader implements CommandLineRunner {
             producto.setCategoriaProducto(categorias.get(random.nextInt(categorias.size())));
             producto.setMarca(marcas.get(random.nextInt(marcas.size())));
             producto.setOferta(ofertas.get(random.nextInt(ofertas.size())));
-            producto.setApiService(apis.get(random.nextInt(apis.size())));
+            producto.setApiTienda(apis.get(random.nextInt(apis.size())));
             productoRepository.save(producto);
         }
     }

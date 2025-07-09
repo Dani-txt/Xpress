@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
-import Grupo1.Xpress.Modelo.ApiService;
+import Grupo1.Xpress.Modelo.ApiTienda;
 import Grupo1.Xpress.Modelo.CategoriaProducto;
 import Grupo1.Xpress.Modelo.Marca;
 import Grupo1.Xpress.Modelo.Oferta;
@@ -26,7 +26,7 @@ import Grupo1.Xpress.Repository.CategoriaProductoRepository;
 import Grupo1.Xpress.Repository.ProductoRepository;
 import Grupo1.Xpress.Service.ProductoService;
 
-@ActiveProfiles("test") 
+@ActiveProfiles("test")
 @SpringBootTest
 public class ProductoServiceTest {
 
@@ -42,7 +42,7 @@ public class ProductoServiceTest {
     private Producto createProducto() {
         return new Producto(1L, "Microondas", true, 15000, "baratin baraton",
                 new CategoriaProducto(1L, "Electrodomésticos"),
-                new ApiService(1L, "www.falabella.com", "falabella"),
+                new ApiTienda(1L, "www.falabella.com", "falabella"),
                 new Marca(1L, "Samsung"),
                 new Oferta(1L, 20.0));
     }
@@ -219,7 +219,7 @@ public class ProductoServiceTest {
     @Test
     public void testDeleteById() {
         doNothing().when(productoRepository).deleteById(1L);
-        productoService.eliminarProductoPorId( 1L);
+        productoService.deleteById(1L);
         verify(productoRepository, times(1)).deleteById(1L);
     }
 

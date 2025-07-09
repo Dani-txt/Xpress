@@ -41,7 +41,10 @@ public class FavoritoService {
         favoritoRepository.deleteByProductoId(productoId);
     }
 
-    public void eliminarFavoritoPorId(Long id) {
-        favoritoRepository.deleteById(id);
+    public void deleteById(Long id) {
+        Favorito favorito = favoritoRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Favorito no encontrado"));
+
+        favoritoRepository.delete(favorito);
     }
 }

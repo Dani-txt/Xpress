@@ -53,7 +53,7 @@ public class FavoritoControllerV2 {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id){
         try {
-            favoritoService.eliminarFavoritoPorId(id);
+            favoritoService.deleteById(id);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
