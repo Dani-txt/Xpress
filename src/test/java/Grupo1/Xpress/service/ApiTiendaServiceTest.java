@@ -19,7 +19,7 @@ import Grupo1.Xpress.Modelo.ApiTienda;
 import Grupo1.Xpress.Repository.ApiTiendaRepository;
 import Grupo1.Xpress.Service.ApiTiendaService;
 
-@ActiveProfiles("test") 
+@ActiveProfiles("test")
 @SpringBootTest
 public class ApiTiendaServiceTest {
 

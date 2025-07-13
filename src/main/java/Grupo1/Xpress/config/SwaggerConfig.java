@@ -8,14 +8,13 @@ import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 
 @Configuration
-
 public class SwaggerConfig {
 
   @Bean
   public OpenAPI CustomOpenAPI(){
     return new OpenAPI().info(
       new Info()
-      .title("Api adminitradora del catalogo de productos Xpress.")
+      .title("Api administradora del catalogo de productos Xpress.")
       .version("1.2")
       .description("""
                     API RESTful para gestionar productos, marcas, categorías y servicios externos (APIService) de la plataforma Xpress.\n
